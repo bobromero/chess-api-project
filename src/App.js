@@ -5,40 +5,43 @@ import Profile from './components/Profile';
 var ChessWebAPI = require('chess-web-api');
 
 var chessAPI = new ChessWebAPI();
-let titeledArray = []
-chessAPI.getTitledPlayers('WGM')
+
+
+
+
+let titledArray = []
+let player = '';
+chessAPI.getTitledPlayers('GM')
     .then(function(response) {
         
-        for (let i = 0; i <= 10; i++){
+        for (let i = 0; i < 10; i++){
           
-          titeledArray.push(response.body.players[i]);
-          console.log(titeledArray);
+          titledArray.push(<p key={Math.random()*1000}>{response.body.players[Math.round(Math.random()*response.body.players.length-1)]}</p>);
+          
         }
-
+        
     }, function(err) {
         console.error(err);
     });
+    player = 'youknowh0';
 
-
-
+    
 function App() {
   
-  const [user, setUser] = useState('550x7');
+  const [user, setUser] = useState(player);
   const [userName, setUserName] = useState();
   const [userFollowers, setUserFollowers] = useState();
   const [userStreamer, setUserStreamer] = useState();
-  const [userCountry, setUserCountry] = useState();
-  const [userId, setUserId] = useState();
 
 
 
+  console.log(titledArray[0])
   chessAPI.getPlayer(user)
     .then(function(response) {
         setUserName(response.body.username);
         setUserFollowers(response.body.followers);
         setUserStreamer(response.body.is_streamer);
-        setUserCountry(response.country);
-        setUserId(response.player_id);
+        
     }, function(err) {
         console.error(err);
     });
@@ -50,19 +53,19 @@ function App() {
     function handleChange(event) {
       this.setUser({value: event.target.value});
     }
+    
   return (
     <div className="App">
-      <input type="text" onSubmit={()=> setUser(handleChange)}></input>
-      <input type="submit" value="Submit" />
+      <input type="text" ></input>
+      <input onSubmit={()=> setUser(handleChange)} type="submit" value="Submit" />
       <Profile
         username={userName}
-        country={userCountry}
         followers={userFollowers}
-        id={userId}
         streamer={userStreamer}
       
       />
-      <h1>here:{user}</h1>
+      <h1>user: {user}</h1>
+      <div>{titledArray}</div>
     </div>
   );
 }
