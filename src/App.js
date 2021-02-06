@@ -14,7 +14,7 @@ let player = '';
 chessAPI.getTitledPlayers('GM')
     .then(function(response) {
         
-        for (let i = 0; i < 10; i++){
+        for (let i = 0; i < 100; i++){
           
           titledArray.push(<p key={Math.random()*1000}>{response.body.players[Math.round(Math.random()*response.body.players.length-1)]}</p>);
           
@@ -50,21 +50,20 @@ function App() {
 
 
 
-    function handleChange(event) {
-      this.setUser({value: event.target.value});
-    }
     
   return (
     <div className="App">
-      <input type="text" ></input>
-      <input onSubmit={()=> setUser(handleChange)} type="submit" value="Submit" />
+      <button  onClick={()=>setUser(titledArray[Math.round(Math.random() * 9)].props.children)}>New GM</button>
+
+      
       <Profile
         username={userName}
         followers={userFollowers}
         streamer={userStreamer}
       
       />
-      <h1>user: {user}</h1>
+      <button  onClick={()=>setUser(titledArray[Math.round(Math.random() * 99)].props.children)}>New GM</button>
+      <h1> 100 Random GMs</h1>
       <div>{titledArray}</div>
     </div>
   );
